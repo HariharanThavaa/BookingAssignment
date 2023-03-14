@@ -11,7 +11,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 @Data
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class CheckAvailabilityDto {

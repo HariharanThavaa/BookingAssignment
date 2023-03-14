@@ -7,31 +7,37 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import javax.validation.constraints.AssertTrue;
-import org.springframework.beans.factory.annotation.Value;
 
-@Service
+
 @Slf4j
+@Service
 public class CheckAvailabilityService {
 
-    @Value( "${external.service.base.uri}" )
-    private String baseUri;
-    @Value( "${external.service.checkAvailable.endpoint}" )
-    private String checkAvailableEndpoint;
+    private static final String BASE_URI = "http://localhost:9092";
+    private static final String CHECK_AVAILABLE_END_POINT = "/api/bookings-mock/checkAvailable";
+
+    private final WebClient webClient;
+
+    // Default usages
+    public CheckAvailabilityService() {
+        webClient = WebClient.create(BASE_URI);
+    }
+
+    // For integration Test
+    public CheckAvailabilityService(WebClient webClient) {
+        this.webClient = webClient;
+    }
 
     @AssertTrue
     public Mono<AvailableDto> check(Mono<CheckAvailabilityDto> checkAvailabilityDtoMono){
-        return checkAvailabilityDtoMono.doOnNext(req -> log.info(req.toString()))
-                .flatMap(this::checkAvailability);
+        return checkAvailabilityDtoMono.flatMap(this::checkAvailability);
     }
 
-
     public Mono<AvailableDto> checkAvailability(CheckAvailabilityDto checkAvailabilityDto) {
-        return WebClient.create(baseUri).post()
-                .uri(checkAvailableEndpoint)
+        return webClient.post()
+                .uri(CHECK_AVAILABLE_END_POINT)
                 .body(Mono.just(checkAvailabilityDto), CheckAvailabilityDto.class)
                 .exchangeToMono(response -> response.bodyToMono(AvailableSpaceDto.class)
-                        .doOnNext(res -> log.info(res.toString()))
-                                .map(res -> new AvailableDto(res.getSpace() > 0)))
-                .doOnNext(res -> log.info(res.toString()));
+                        .map(res -> new AvailableDto(res.getSpace() > 0)));
     }
 }

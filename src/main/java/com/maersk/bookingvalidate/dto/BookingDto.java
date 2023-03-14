@@ -12,7 +12,6 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Data
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookingDto{

@@ -27,13 +27,13 @@ public class BookingController {
     private BookingService bookingService;
 
     @PostMapping("checkAvailable")
-    public Mono<AvailableDto> checkAvailability(@Valid @RequestBody Mono<CheckAvailabilityDto> checkAvailabilityDtoMono) {
-        return this.checkAvailabilityService.check(checkAvailabilityDtoMono);
+    public Mono<AvailableDto> checkAvailability(@Valid @RequestBody Mono<CheckAvailabilityDto> checkAvailabilityDto) {
+        return this.checkAvailabilityService.check(checkAvailabilityDto);
     }
 
     @PostMapping("book")
-    public Flux<BookingRefDto> book(@Valid @RequestBody Mono<BookingDto> bookingDtoMono) {
-        return this.bookingService.book(bookingDtoMono);
+    public Flux<BookingRefDto> book(@Valid @RequestBody Mono<BookingDto> bookingDto) {
+        return this.bookingService.book(bookingDto);
     }
 
 }
