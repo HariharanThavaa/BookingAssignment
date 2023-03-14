@@ -13,8 +13,9 @@ import javax.validation.constraints.AssertTrue;
 @Service
 public class CheckAvailabilityService {
 
-    private static final String BASE_URI = "http://localhost:9092";
-    private static final String CHECK_AVAILABLE_END_POINT = "/api/bookings-mock/checkAvailable";
+    private static final String BASE_URI = "https://maersk.com";
+
+    private static final String CHECK_AVAILABLE_END_POINT = "/api/bookings/checkAvailable";
 
     private final WebClient webClient;
 

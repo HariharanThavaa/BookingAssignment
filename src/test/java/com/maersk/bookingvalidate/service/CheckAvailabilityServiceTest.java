@@ -30,7 +30,7 @@ import static com.maersk.bookingvalidate.dto.ContainerType.REEFER;
 
 class CheckAvailabilityServiceTest {
 
-    private static final String CHECK_AVAILABLE_END_POINT = "/api/bookings-mock/checkAvailable";
+    private static final String CHECK_AVAILABLE_END_POINT = "/api/bookings/checkAvailable";
 
     @Autowired
     private WireMockServer server;
