@@ -10,17 +10,14 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@Slf4j
 @Service
 public class BookingService {
 
     @Autowired
     private BookingRepository repository;
 
-    public Flux<BookingRefDto> book(Mono<BookingDto> bookingDtoMono){
-        return this.repository.insert(bookingDtoMono
-                .map(req -> new Booking(req)))
-                .map(req-> new BookingRefDto(req.getBookingRef()));
-
+    public Flux<BookingRefDto> book(Mono<BookingDto> bookingDto){
+        return repository.insert(bookingDto.map(dto -> new Booking(dto)))
+                .map(ent -> new BookingRefDto(ent.getBookingRef()));
     }
 }
